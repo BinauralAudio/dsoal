@@ -57,7 +57,7 @@ jobs:
     - name: ${{matrix.config.name}} - Build DSOAL
       run: |
         cd build
-        cmake -G"Visual Studio 16 2019" -A ${{matrix.config.platform}} ..
+        cmake -A ${{matrix.config.platform}} ..
         cmake --build . --config ${{env.Configuration}} --clean-first
     - name: ${{matrix.config.name}} - Build OpenAL Soft
       run: |
