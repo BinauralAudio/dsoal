@@ -59,7 +59,6 @@ jobs:
         cd build
         cmake -G"Visual Studio 16 2019" -A ${{matrix.config.platform}} ..
         cmake --build . --config ${{env.Configuration}} --clean-first
-        
     - name: ${{matrix.config.name}} - Build OpenAL Soft
       run: |
         cmake -B "${{github.workspace}}/openal-soft/build" -DCMAKE_Configuration=${{env.Configuration}} -A ${{matrix.config.platform}} -DALSOFT_BUILD_ROUTER=ON -DALSOFT_REQUIRE_WINMM=ON -DALSOFT_REQUIRE_DSOUND=ON -DALSOFT_REQUIRE_WASAPI=ON "${{github.workspace}}/openal-soft"
