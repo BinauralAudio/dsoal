@@ -18,6 +18,7 @@ env:
   DSOALBranch: ${{github.ref_name}}
   OpenALSoftRepo: kcat/openal-soft
   OpenALSoftBranch: master
+  GH_TOKEN: ${{github.token}}
 
 jobs:
 
