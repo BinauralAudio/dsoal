@@ -28,7 +28,8 @@ jobs:
       - id: matrix
         run: |
           git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
-          git reset --hard f3c079ee3e3cffd6869fd738de37c9ae831a333b
+#2          git reset --hard f3c079ee3e3cffd6869fd738de37c9ae831a333b
+          git reset --hard 98584ab11d231d36488bc055bdeb19b607706bc6
           echo "DSOALCommitHash=[\"$(git rev-list HEAD | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
       - run: |
           echo "${{ steps.matrix.outputs.DSOALCommitHash }}"
@@ -69,7 +70,7 @@ jobs:
         cmake --build "${{github.workspace}}/openal-soft/build" --config ${{env.Configuration}}
         ls -R
         cd "${{github.workspace}}"
-        cmake -B "${{github.workspace}}/build" -A ${{matrix.config.platform}} -DOPENAL_INCLUDE_DIR=openal-soft/include -DOPENAL_LIBRARY=openal-soft/build/Release/OpenAL32.lib
+        cmake -B "${{github.workspace}}/build" -A ${{matrix.config.platform}} -DOPENAL_INCLUDE_DIR=openal-soft/include/AL -DOPENAL_LIBRARY=openal-soft/build/Release/OpenAL32.lib
         cmake --build "${{github.workspace}}/build" --config ${{env.Configuration}}
         ls -R
         mkdir "DSOAL"
