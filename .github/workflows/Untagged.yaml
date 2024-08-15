@@ -58,7 +58,7 @@ jobs:
         git reset --hard ${{matrix.DSOALCommitHash}}
         echo "DSOALCommitHashShort=$(git rev-parse --short=8 HEAD)" >> $env:GITHUB_ENV
         echo "DSOALCommitDate=$(git show -s --date=iso-local --format=%cd)" >> $env:GITHUB_ENV
-        echo "DSOALCommitDateShort=$(git show -s --date=iso-local --date=format:'%Y%m%d-%H%M' --format=%cd)" >> $env:GITHUB_ENV
+        echo "DSOALCommitDateShort=$(git show -s --date=iso-local --date=format:'%Y-%m-%d' --format=%cd)" >> $env:GITHUB_ENV
         echo "DSOALCommitCount=$(git rev-list --count HEAD)" >> $env:GITHUB_ENV
         
     - name: Clone OpenAL Soft
