@@ -47,10 +47,10 @@ jobs:
             name: "Win32",
             platform: "Win32"
           }
-        - {
-            name: "Win64",
-            platform: "x64"
-          }
+#        - {
+#            name: "Win64",
+#            platform: "x64"
+#          }
     steps:
     
     - name: Clone DSOAL
@@ -68,7 +68,8 @@ jobs:
         cmake -B "${{github.workspace}}/openal-soft/build" -DCMAKE_Configuration=${{env.Configuration}} -A ${{matrix.config.platform}} -DALSOFT_BUILD_ROUTER=ON -DALSOFT_REQUIRE_WINMM=ON -DALSOFT_REQUIRE_DSOUND=ON -DALSOFT_REQUIRE_WASAPI=ON "${{github.workspace}}/openal-soft"
         cmake --build "${{github.workspace}}/openal-soft/build" --config ${{env.Configuration}}
         ls -R
-        cmake -B "${{github.workspace}}/build" -A ${{matrix.config.platform}} -DOPENAL_INCLUDE_DIR=openal-soft/include -DOPENAL_LIBRARY=openal-soft/include
+        cd "${{github.workspace}}"
+        cmake -B "${{github.workspace}}/build" -A ${{matrix.config.platform}} -DOPENAL_INCLUDE_DIR=openal-soft/include -DOPENAL_LIBRARY=openal-soft/build/Release/OpenAL32.lib
         cmake --build "${{github.workspace}}/build" --config ${{env.Configuration}}
         ls -R
         mkdir "DSOAL"
