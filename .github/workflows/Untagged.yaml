@@ -104,10 +104,10 @@ jobs:
     - name: Compress
       run: |
         cd build/Release
-        7z a DSOAL.zip      ./DSOAL/*
-        7z a DSOAL+HRTF.zip ./DSOAL+HRTF/*
+        7z a DSOAL-${{matrix.config.name}}.zip      ./DSOAL/*
+        7z a DSOAL+HRTF-${{matrix.config.name}}.zip ./DSOAL+HRTF/*
 
     - name: Release
       run: |
         gh release create r${{env.DSOALCommitCount}} --title "DSOAL r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}}" --target ${{env.DSOALBranch}} --generate-notes --latest=false --prerelease
-        gh release upload r${{env.DSOALCommitCount}} build/Release/DSOAL.zip build/Release/DSOAL+HRTF.zip
+        gh release upload r${{env.DSOALCommitCount}} build/Release/DSOAL-${{matrix.config.name}}.zip build/Release/DSOAL+HRTF-${{matrix.config.name}}.zip
