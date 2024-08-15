@@ -110,4 +110,4 @@ jobs:
     - name: Release
       run: |
         gh release create r${{env.DSOALCommitCount}} --title "DSOAL r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}}" --target ${{env.DSOALBranch}} --generate-notes --latest=false --prerelease
-        gh release upload r${{env.DSOALCommitCount}} DSOAL.zip DSOAL+HRTF.zip
+        gh release upload r${{env.DSOALCommitCount}} build/Release/DSOAL.zip build/Release/DSOAL+HRTF.zip
