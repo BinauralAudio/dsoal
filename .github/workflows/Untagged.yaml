@@ -57,10 +57,11 @@ jobs:
       run: |
         git clone --branch ${{env.DSOALBranch}} https://github.com/${{env.DSOALRepo}}.git .
         git reset --hard ${{ matrix.DSOALCommitHash }}
+        git clone --branch ${{env.OpenALSoftBranch}} https://github.com/${{env.OpenALSoftRepo}}.git
         echo "DSOALCommitHashShort=$(git rev-parse --short=8 HEAD)" >> $env:GITHUB_ENV
         echo "DSOALCommitDate=$(git show -s --date=iso-local --format=%cd)" >> $env:GITHUB_ENV
         echo "DSOALCommitCount=$(git rev-list --count HEAD)" >> $env:GITHUB_ENV
-        cmake -B "${{github.workspace}}/build" -A ${{matrix.config.platform}}
+        cmake -B "${{github.workspace}}/build" -A ${{matrix.config.platform}} -DOPENAL_INCLUDE_DIR=openal-soft/include -DOPENAL_LIBRARY=openal-soft/include
         cmake --build "${{github.workspace}}/build" --config ${{env.Configuration}}
         mkdir "DSOAL"
         mkdir "DSOAL/Documentation"
