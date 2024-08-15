@@ -37,7 +37,7 @@ jobs:
   Build:
     needs: [ setup ]
     name: ${{matrix.config.name}}
-    runs-on: windows-latest
+    runs-on: windows-2019
     strategy:
       matrix:
         DSOALCommitHash: ${{fromJSON(needs.setup.outputs.matrix)}}
@@ -56,14 +56,22 @@ jobs:
       run: |
         git clone --branch ${{env.DSOALBranch}} https://github.com/${{env.DSOALRepo}}.git .
         git reset --hard ${{matrix.DSOALCommitHash}}
-        git clone --branch ${{env.OpenALSoftBranch}} https://github.com/${{env.OpenALSoftRepo}}.git
         echo "DSOALCommitHashShort=$(git rev-parse --short=8 HEAD)" >> $env:GITHUB_ENV
         echo "DSOALCommitDate=$(git show -s --date=iso-local --format=%cd)" >> $env:GITHUB_ENV
         echo "DSOALCommitCount=$(git rev-list --count HEAD)" >> $env:GITHUB_ENV
+        
+    - name: Clone OpenAL Soft
+      run: |
+        git clone --branch ${{env.OpenALSoftBranch}} https://github.com/${{env.OpenALSoftRepo}}.git
+        git reset --hard $(git rev-list -1 $(git rev-parse --until=${{env.DSOALCommitDate}}) HEAD)
         cd "openal-soft"
         echo "OpenALSoftCommitHashShort=$(git rev-parse --short=8 HEAD)" >> $env:GITHUB_ENV
         echo "OpenALSoftCommitDate=$(git show -s --date=iso-local --format=%cd)" >> $env:GITHUB_ENV
         echo "OpenALSoftCommitCount=$(git rev-list --count HEAD)" >> $env:GITHUB_ENV
+
+        
+    - name: Build
+      run: |
         cmake -B "${{github.workspace}}/openal-soft/build" -DCMAKE_Configuration=${{env.Configuration}} -A ${{matrix.config.platform}} -DALSOFT_BUILD_ROUTER=ON -DALSOFT_REQUIRE_WINMM=ON -DALSOFT_REQUIRE_DSOUND=ON -DALSOFT_REQUIRE_WASAPI=ON "${{github.workspace}}/openal-soft"
         cmake --build "${{github.workspace}}/openal-soft/build" --config ${{env.Configuration}}
         cd "${{github.workspace}}"
