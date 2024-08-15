@@ -7,15 +7,16 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
     steps:
       - id: matrix
         run: |
           git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
-          echo "value=[\"$(git rev-list HEAD)\"]" >> $GITHUB_OUTPUT
+          echo "value=[\"a\", \"b\", \"c\"]" >> $GITHUB_OUTPUT
       - run: |
           echo "${{ steps.matrix.outputs.value }}"
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+      
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
