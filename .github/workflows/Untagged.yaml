@@ -41,7 +41,6 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        DSOALCommitHash: ${{fromJSON(needs.setup.outputs.matrix)}}
         config:
         - {
             name: "Win32",
@@ -51,10 +50,12 @@ jobs:
             name: "Win64",
             platform: "x64"
           }
+        DSOALCommitHash: ${{fromJSON(needs.setup.outputs.matrix)}}
     steps:
     
     - name: Clone DSOAL
       run: |
+        git clone --branch ${{env.DSOALBranch}} https://github.com/${{env.DSOALRepo}}.git .
         git reset --hard ${{ matrix.DSOALCommitHash }}
         echo "DSOALCommitHashShort=$(git rev-parse --short=8 HEAD)" >> $env:GITHUB_ENV
         echo "DSOALCommitDate=$(git show -s --date=iso-local --format=%cd)" >> $env:GITHUB_ENV
