@@ -38,7 +38,7 @@ jobs:
   Build:
     needs: [ setup ]
     name: ${{matrix.config.name}}
-    runs-on: linux-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         DSOALCommitHash: ${{fromJSON(needs.setup.outputs.matrix)}}
