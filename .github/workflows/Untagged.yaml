@@ -11,7 +11,8 @@ jobs:
     steps:
       - id: matrix
         run: |
-          echo "value=[\"a\", \"b\", \"c\"]" >> $GITHUB_OUTPUT
+          git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
+          echo "value=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
       - run: |
           echo "${{ steps.matrix.outputs.value }}"
   build:
