@@ -1,29 +1,13 @@
-name: Untagged build
-
+name: Test
 on:
   push:
   workflow_dispatch:
   
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - id: matrix
-        run: |
-          git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
-          git reset --hard 140019ec6aec2659d5fa2bca31b78c37ab28d1dd
-          echo "value=[\"$(git rev-list HEAD | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
-      - run: |
-          echo "${{ steps.matrix.outputs.value }}"
-    outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
-      
   build:
-    needs: [ setup ]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        value: ${{fromJSON(needs.setup.outputs.matrix)}}
     steps:
       - run: |
-          echo "${{ matrix.value }}"
+          git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
+      - run: |
+          git log --format="%h %d" |grep -v '(tag:' | awk '{print $1}'
