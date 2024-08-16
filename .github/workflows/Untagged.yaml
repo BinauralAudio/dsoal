@@ -14,8 +14,8 @@ on:
 
 env:
   Configuration: Release
-  DSOALRepo: ${{github.repository}}
-  DSOALBranch: ${{github.ref_name}}
+  DSOALRepo: kcat/dsoal
+  DSOALBranch: master
   OpenALSoftRepo: kcat/openal-soft
   OpenALSoftBranch: master
   GH_TOKEN: ${{github.token}}
@@ -27,7 +27,7 @@ jobs:
     steps:
       - id: matrix
         run: |
-          git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
+          git clone --branch ${{env.DSOALBranch}} https://github.com/${{env.DSOALRepo}}.git .
           echo "DSOALCommitHash=[\"$(git log --max-count=2 --format="%h %d" |grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
     outputs:
       matrix: ${{ steps.matrix.outputs.DSOALCommitHash }}
@@ -79,36 +79,38 @@ jobs:
     - name: Collect binaries
       run: |
         mkdir -p "${{env.Configuration}}/Win32"
-        move "${{github.workspace}}/build/Win32/${{env.Configuration}}/dsound.dll"                             "${{env.Configuration}}/Win32/dsound.dll"
-        move "${{github.workspace}}/openal-soft/build/Win32/${{env.Configuration}}/soft_oal.dll"               "${{env.Configuration}}/Win32/dsoal-aldrv.dll"
-        copy "${{github.workspace}}/openal-soft/alsoftrc.sample"                                               "${{env.Configuration}}/Win32/alsoft.ini"
         mkdir -p "${{env.Configuration}}/Win64"
-        move "${{github.workspace}}/build/Win64/${{env.Configuration}}/dsound.dll"                             "${{env.Configuration}}/Win64/dsound.dll"
-        move "${{github.workspace}}/openal-soft/build/Win64/${{env.Configuration}}/soft_oal.dll"               "${{env.Configuration}}/Win64/dsoal-aldrv.dll"
-        copy "${{github.workspace}}/openal-soft/alsoftrc.sample"                                               "${{env.Configuration}}/Win64/alsoft.ini"
         mkdir -p "${{env.Configuration}}/Documentation"
-        copy "${{github.workspace}}/README.md"                                                                 "${{env.Configuration}}/Documentation/DSOAL-ReadMe.txt"
-        copy "${{github.workspace}}/LICENSE"                                                                   "${{env.Configuration}}/Documentation/DSOAL-License.txt"
-        echo "${{env.DSOALRepo}}" >>                                                                           "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
-        echo "r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}} ${{env.DSOALBranch}}" >>                "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
-        echo "${{matrix.DSOALCommitHash}}" >>                                                                  "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
-        echo "${{env.DSOALCommitDateTimeZone}}" >>                                                                     "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
-        copy "${{github.workspace}}/openal-soft/README.md"                                                     "${{env.Configuration}}/Documentation/OpenALSoft-ReadMe.txt"
-        copy "${{github.workspace}}/openal-soft/COPYING"                                                       "${{env.Configuration}}/Documentation/OpenALSoft-License.txt"
-        copy "${{github.workspace}}/openal-soft/BSD-3Clause"                                                   "${{env.Configuration}}/Documentation/OpenALSoft-BSD-3Clause.txt"
-        copy "${{github.workspace}}/openal-soft/ChangeLog"                                                     "${{env.Configuration}}/Documentation/OpenALSoft-ChangeLog.txt"
-        echo "${{env.OpenALSoftRepo}}" >>                                                                      "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
-        echo "r${{env.OpenALSoftCommitCount}}@${{env.OpenALSoftCommitHashShort}} ${{env.OpenALSoftBranch}}" >> "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
-        echo "${{env.OpenALSoftCommitHash}}" >>                                                                "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
-        echo "${{env.OpenALSoftCommitDateTimeZone}}" >>                                                                "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
-#        cp -R "${{env.Configuration}}" "${{env.Configuration}}+HRTF"
-#        mv "${{env.Configuration}}/Win32/alsoft.ini" "${{env.Configuration}}/Documentation/alsoft.ini"
-#        curl https://raw.githubusercontent.com/${{needs.Build.outputs.OpenALSoftRepo}}/${{needs.Build.outputs.OpenALSoftBranch}}/configs/HRTF/alsoft.ini -o "build/${{env.Configuration}}/DSOAL+HRTF/${{matrix.config.name}}/alsoft.ini"
-        
+        mkdir -p "${{env.Configuration}}/Win32/HRTF"
+        mkdir -p "${{env.Configuration}}/Win64/HRTF"
+        move "${{github.workspace}}/build/Win32/${{env.Configuration}}/dsound.dll"                                                                          "${{env.Configuration}}/Win32/dsound.dll"
+        move "${{github.workspace}}/openal-soft/build/Win32/${{env.Configuration}}/soft_oal.dll"                                                            "${{env.Configuration}}/Win32/dsoal-aldrv.dll"
+        copy "${{github.workspace}}/openal-soft/alsoftrc.sample"                                                                                            "${{env.Configuration}}/Win32/alsoft.ini"
+        move "${{github.workspace}}/build/Win64/${{env.Configuration}}/dsound.dll"                                                                          "${{env.Configuration}}/Win64/dsound.dll"
+        move "${{github.workspace}}/openal-soft/build/Win64/${{env.Configuration}}/soft_oal.dll"                                                            "${{env.Configuration}}/Win64/dsoal-aldrv.dll"
+        copy "${{github.workspace}}/openal-soft/alsoftrc.sample"                                                                                            "${{env.Configuration}}/Win64/alsoft.ini"
+        copy "${{github.workspace}}/README.md"                                                                                                              "${{env.Configuration}}/Documentation/DSOAL-ReadMe.txt"
+        copy "${{github.workspace}}/LICENSE"                                                                                                                "${{env.Configuration}}/Documentation/DSOAL-License.txt"
+        echo "${{env.DSOALRepo}}" >>                                                                                                                        "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
+        echo "r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}} ${{env.DSOALBranch}}" >>                                                             "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
+        echo "${{matrix.DSOALCommitHash}}" >>                                                                                                               "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+        echo "${{env.DSOALCommitDateTimeZone}}" >>                                                                                                          "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
+        copy "${{github.workspace}}/openal-soft/README.md"                                                                                                  "${{env.Configuration}}/Documentation/OpenALSoft-ReadMe.txt"
+        copy "${{github.workspace}}/openal-soft/COPYING"                                                                                                    "${{env.Configuration}}/Documentation/OpenALSoft-License.txt"
+        copy "${{github.workspace}}/openal-soft/BSD-3Clause"                                                                                                "${{env.Configuration}}/Documentation/OpenALSoft-BSD-3Clause.txt"
+        copy "${{github.workspace}}/openal-soft/ChangeLog"                                                                                                  "${{env.Configuration}}/Documentation/OpenALSoft-ChangeLog.txt"
+        echo "${{env.OpenALSoftRepo}}" >>                                                                                                                   "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+        echo "r${{env.OpenALSoftCommitCount}}@${{env.OpenALSoftCommitHashShort}} ${{env.OpenALSoftBranch}}" >>                                              "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+        echo "${{env.OpenALSoftCommitHash}}" >>                                                                                                             "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+        echo "${{env.OpenALSoftCommitDateTimeZone}}" >>                                                                                                     "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+        cp -R "${{env.Configuration}}/Win32"                                                                                                                "${{env.Configuration}}/Win32/HRTF"
+        cp -R "${{env.Configuration}}/Win64"                                                                                                                "${{env.Configuration}}/Win64/HRTF"
+        curl https://raw.githubusercontent.com/${{needs.Build.outputs.OpenALSoftRepo}}/${{needs.Build.outputs.OpenALSoftBranch}}/configs/HRTF/alsoft.ini -o "${{env.Configuration}}/Win32/HRTF/alsoft.ini"
+        curl https://raw.githubusercontent.com/${{needs.Build.outputs.OpenALSoftRepo}}/${{needs.Build.outputs.OpenALSoftBranch}}/configs/HRTF/alsoft.ini -o "${{env.Configuration}}/Win64/HRTF/alsoft.ini"
+
     - name: Compress artifacts
       run: |
-        7z a ${{env.Configuration}}/DSOAL_r${{env.DSOALCommitCount}}.zip      ./${{env.Configuration}}/*
-#        7z a DSOAL+HRTF-${{matrix.config.name}}.zip ./DSOAL+HRTF/*
+        7z a ${{env.Configuration}}/DSOAL_r${{env.DSOALCommitCount}}.zip ./${{env.Configuration}}/* -mx=9 s=on
 
     - name: Release
       run: |
