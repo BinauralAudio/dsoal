@@ -20,6 +20,9 @@ env:
   OpenALSoftBranch: master
   GH_TOKEN: ${{github.token}}
 
+permissions:
+  contents: write
+
 jobs:
 
   setup:
