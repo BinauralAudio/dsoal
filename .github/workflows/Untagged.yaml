@@ -1,7 +1,6 @@
 name: Untagged build
 
-permissions:
-  contents: write
+permissions: write-all
 
 on:
   push:
