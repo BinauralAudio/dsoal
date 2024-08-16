@@ -36,7 +36,7 @@ jobs:
 
   Build:
     needs: [ setup ]
-    name: r${{matrix.DSOALCommitHash}}
+    name: r${{env.DSOALCommitCount}}
     runs-on: windows-2019
     strategy:
       max-parallel: 1
