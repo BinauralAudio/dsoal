@@ -28,7 +28,7 @@ jobs:
       - id: matrix
         run: |
           git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
-          echo "DSOALCommitHash=[\"$(git log --format="%h %d" |grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
+          echo "DSOALCommitHash=[\"$(git log --max-count=2 --format="%h %d" |grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
       - run: |
           echo "${{ steps.matrix.outputs.DSOALCommitHash }}"
     outputs:
@@ -36,7 +36,7 @@ jobs:
 
   Build:
     needs: [ setup ]
-    name: ${{matrix.DSOALCommitHash}}
+    name: r${{matrix.DSOALCommitHash}}
     runs-on: windows-2019
     strategy:
       max-parallel: 1
