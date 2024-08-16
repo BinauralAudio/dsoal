@@ -29,7 +29,11 @@ jobs:
         run: |
           git clone --branch ${{env.DSOALBranch}} https://github.com/${{env.DSOALRepo}}.git .
           git reset --hard 52224b17832fda41d02153cf8f56d27cd94bf79a
-          echo "DSOALCommitHash=[\"$(git log --max-count=2 --format="%h %d" |grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
+          echo git log --format="%h %d":
+          git log --format="%h %d"
+          echo git log --max-count=2 --format="%h %d" | grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')
+          git log --max-count=2 --format="%h %d" |grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')
+          echo "DSOALCommitHash=[\"$(git log --max-count=2 --format="%h %d" | grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
     outputs:
       matrix: ${{ steps.matrix.outputs.DSOALCommitHash }}
 
