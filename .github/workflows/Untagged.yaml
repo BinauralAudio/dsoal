@@ -1,5 +1,8 @@
 name: Untagged build
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -19,9 +22,6 @@ env:
   OpenALSoftRepo: kcat/openal-soft
   OpenALSoftBranch: master
   GH_TOKEN: ${{github.token}}
-
-permissions:
-  contents: write
 
 jobs:
 
