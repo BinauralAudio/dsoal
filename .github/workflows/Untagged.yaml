@@ -28,7 +28,7 @@ jobs:
       - id: matrix
         run: |
           git clone --branch ${{env.DSOALBranch}} https://github.com/${{env.DSOALRepo}}.git .
-          echo "DSOALCommitHash=[\"$(git log --max-count=2 --format="%h %d" |grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
+          echo "DSOALCommitHash=[\"$(git log --max-count=5 --format="%h %d" |grep -v '(tag:' | awk '{print $1}' | sed ':a;N;$!ba;s/\n/\", \"/g')\"]" >> $GITHUB_OUTPUT
     outputs:
       matrix: ${{ steps.matrix.outputs.DSOALCommitHash }}
 
@@ -93,7 +93,7 @@ jobs:
         copy "${{github.workspace}}/LICENSE"                                                                                                                "${{env.Configuration}}/Documentation/DSOAL-License.txt"
         echo "${{env.DSOALRepo}}" >>                                                                                                                        "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
         echo "r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}} ${{env.DSOALBranch}}" >>                                                             "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
-        echo "${{matrix.DSOALCommitHash}}" >>                                                                                                               "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+        echo "${{matrix.DSOALCommitHash}}" >>                                                                                                               "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
         echo "${{env.DSOALCommitDateTimeZone}}" >>                                                                                                          "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
         copy "${{github.workspace}}/openal-soft/README.md"                                                                                                  "${{env.Configuration}}/Documentation/OpenALSoft-ReadMe.txt"
         copy "${{github.workspace}}/openal-soft/COPYING"                                                                                                    "${{env.Configuration}}/Documentation/OpenALSoft-License.txt"
