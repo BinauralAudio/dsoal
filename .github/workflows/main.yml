@@ -4,11 +4,7 @@ on:
   
 jobs:
   build:
-    needs: [ setup ]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        value: ${{fromJSON(needs.setup.outputs.matrix)}}
     steps:
       - run: |
           git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
