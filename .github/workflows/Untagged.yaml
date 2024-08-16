@@ -112,7 +112,7 @@ jobs:
 
     - name: Compress artifacts
       run: |
-        7z a ${{env.Configuration}}/DSOAL_r${{env.DSOALCommitCount}}.zip ./${{env.Configuration}}/* -mx=9 s=on
+        7z a ${{env.Configuration}}/DSOAL_r${{env.DSOALCommitCount}}.zip ./${{env.Configuration}}/* -mx=9
 
     - name: Release
       run: |
