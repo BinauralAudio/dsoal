@@ -3,16 +3,6 @@ on:
   workflow_dispatch:
   
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
-    steps:
-      - id: matrix
-        run: |
-          echo "value=[\"a\", \"b\", \"c\"]" >> $GITHUB_OUTPUT
-      - run: |
-          echo "${{ steps.matrix.outputs.value }}"
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
@@ -21,4 +11,6 @@ jobs:
         value: ${{fromJSON(needs.setup.outputs.matrix)}}
     steps:
       - run: |
-          echo "${{ matrix.value }}"
+          git clone --branch build-all https://github.com/BinauralAudio/dsoal.git .
+      - run: |
+          git log --format="%h %d" |grep -v '(tag:' | awk '{print $1}'
