@@ -76,36 +76,149 @@ jobs:
         cmake -B "${{github.workspace}}/build/Win64" -A x64 -DOPENAL_INCLUDE_DIR=openal-soft/include/AL -DOPENAL_LIBRARY=openal-soft/build/${{env.Configuration}}/OpenAL32.lib
         cmake --build "${{github.workspace}}/build/Win64" --config ${{env.Configuration}}
 
+
     - name: Collect binaries
       run: |
         mkdir -p "${{env.Configuration}}/Win32"
+
+
+    - name: Collect binaries
+      run: |
         mkdir -p "${{env.Configuration}}/Win64"
+
+
+    - name: Collect binaries
+      run: |
         mkdir -p "${{env.Configuration}}/Documentation"
+
+
+    - name: Collect binaries
+      run: |
         mkdir -p "${{env.Configuration}}/Win32/HRTF"
+
+
+    - name: Collect binaries
+      run: |
         mkdir -p "${{env.Configuration}}/Win64/HRTF"
+
+
+    - name: Collect binaries
+      run: |
         move "${{github.workspace}}/build/Win32/${{env.Configuration}}/dsound.dll"                                                                         "${{env.Configuration}}/Win32/dsound.dll"
+
+
+    - name: Collect binaries
+      run: |
         move "${{github.workspace}}/openal-soft/build/Win32/${{env.Configuration}}/soft_oal.dll"                                                           "${{env.Configuration}}/Win32/dsoal-aldrv.dll"
+
+
+    - name: Collect binaries
+      run: |
         copy "${{github.workspace}}/openal-soft/alsoftrc.sample"                                                                                           "${{env.Configuration}}/Win32/alsoft.ini"
+
+
+    - name: Collect binaries
+      run: |
         move "${{github.workspace}}/build/Win64/${{env.Configuration}}/dsound.dll"                                                                         "${{env.Configuration}}/Win64/dsound.dll"
+
+
+    - name: Collect binaries
+      run: |
         move "${{github.workspace}}/openal-soft/build/Win64/${{env.Configuration}}/soft_oal.dll"                                                           "${{env.Configuration}}/Win64/dsoal-aldrv.dll"
+
+
+    - name: Collect binaries
+      run: |
         copy "${{github.workspace}}/openal-soft/alsoftrc.sample"                                                                                           "${{env.Configuration}}/Win64/alsoft.ini"
+
+
+    - name: Collect binaries
+      run: |
         copy "${{github.workspace}}/README.md"                                                                                                             "${{env.Configuration}}/Documentation/DSOAL-ReadMe.txt"
+
+
+    - name: Collect binaries
+      run: |
         copy "${{github.workspace}}/LICENSE"                                                                                                               "${{env.Configuration}}/Documentation/DSOAL-License.txt"
+
+
+    - name: Collect binaries
+      run: |
         echo "${{env.DSOALRepo}}" >>                                                                                                                       "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
+
+
+    - name: Collect binaries
+      run: |
         echo "r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}} ${{env.DSOALBranch}}" >>                                                            "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
+
+
+    - name: Collect binaries
+      run: |
         echo "${{matrix.DSOALCommitHash}}" >>                                                                                                              "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
+
+
+    - name: Collect binaries
+      run: |
         echo "${{env.DSOALCommitDateTimeZone}}" >>                                                                                                         "${{env.Configuration}}/Documentation/DSOAL-Version.txt"
+
+
+    - name: Collect binaries
+      run: |
         copy "${{github.workspace}}/openal-soft/README.md"                                                                                                 "${{env.Configuration}}/Documentation/OpenALSoft-ReadMe.txt"
+
+
+    - name: Collect binaries
+      run: |
         copy "${{github.workspace}}/openal-soft/COPYING"                                                                                                   "${{env.Configuration}}/Documentation/OpenALSoft-License.txt"
+
+
+    - name: Collect binaries
+      run: |
         copy "${{github.workspace}}/openal-soft/BSD-3Clause"                                                                                               "${{env.Configuration}}/Documentation/OpenALSoft-BSD-3Clause.txt"
+
+
+    - name: Collect binaries
+      run: |
         copy "${{github.workspace}}/openal-soft/ChangeLog"                                                                                                 "${{env.Configuration}}/Documentation/OpenALSoft-ChangeLog.txt"
+
+
+    - name: Collect binaries
+      run: |
         echo "${{env.OpenALSoftRepo}}" >>                                                                                                                  "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+
+
+    - name: Collect binaries
+      run: |
         echo "r${{env.OpenALSoftCommitCount}}@${{env.OpenALSoftCommitHashShort}} ${{env.OpenALSoftBranch}}" >>                                             "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+
+
+    - name: Collect binaries
+      run: |
         echo "${{env.OpenALSoftCommitHash}}" >>                                                                                                            "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+
+
+    - name: Collect binaries
+      run: |
         echo "${{env.OpenALSoftCommitDateTimeZone}}" >>                                                                                                    "${{env.Configuration}}/Documentation/OpenALSoft-Version.txt"
+
+
+    - name: Collect binaries
+      run: |
         cp -R "${{env.Configuration}}/Win32"                                                                                                               "${{env.Configuration}}/Win32/HRTF"
+
+
+    - name: Collect binaries
+      run: |
         cp -R "${{env.Configuration}}/Win64"                                                                                                               "${{env.Configuration}}/Win64/HRTF"
+
+
+    - name: Collect binaries
+      run: |
         curl https://raw.githubusercontent.com/${{needs.Build.outputs.OpenALSoftRepo}}/${{needs.Build.outputs.OpenALSoftBranch}}/configs/HRTF/alsoft.ini > "${{env.Configuration}}/Win32/HRTF/alsoft.ini"
+
+
+    - name: Collect binaries
+      run: |
         curl https://raw.githubusercontent.com/${{needs.Build.outputs.OpenALSoftRepo}}/${{needs.Build.outputs.OpenALSoftBranch}}/configs/HRTF/alsoft.ini > "${{env.Configuration}}/Win64/HRTF/alsoft.ini"
 
     - name: Compress artifacts
