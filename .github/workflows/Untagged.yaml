@@ -123,7 +123,7 @@ jobs:
     - name: Release
       run: |
         gh auth status
-        gh release create r${{env.DSOALCommitCount}} --title "DSOAL r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}} ${{env.DSOALBranch}} + OpenAL Soft r${{env.OpenALSoftCommitCount}}@${{env.OpenALSoftCommitHashShort}} ${{env.OpenALSoftBranch}} [${{env.DSOALCommitDateTimeZone}}]" --target ${{env.DSOALCommitHash}} --generate-notes --latest=false --prerelease
+        gh release create r${{env.DSOALCommitCount}} --title "DSOAL r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}} ${{env.DSOALBranch}} + OpenAL Soft r${{env.OpenALSoftCommitCount}}@${{env.OpenALSoftCommitHashShort}} ${{env.OpenALSoftBranch}} [${{env.DSOALCommitDateTimeZone}}]" --target build-all --target ${{env.DSOALCommitHash}} --generate-notes --latest=false --prerelease
 #        gh release create r${{env.DSOALCommitCount}} --title "DSOAL r${{env.DSOALCommitCount}}@${{env.DSOALCommitHashShort}} ${{env.DSOALBranch}} + OpenAL Soft r${{env.OpenALSoftCommitCount}}@${{env.OpenALSoftCommitHashShort}} ${{env.OpenALSoftBranch}} [${{env.DSOALCommitDateTimeZone}}]" --generate-notes --latest=false --prerelease
     - name: Upload
       run: |
