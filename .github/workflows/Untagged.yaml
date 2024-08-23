@@ -12,6 +12,9 @@ on:
 #  - cron: '0 0 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   Configuration: Release
   DSOALRepo: ${{github.repository}}
